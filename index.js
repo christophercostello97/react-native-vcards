@@ -10,8 +10,6 @@
  */
 var vCard = (function () {
 
-  var fs = require('rn-fetch-blob');
-
     /**
      * Get photo object for storing photos in vCards
      */
@@ -34,10 +32,9 @@ var vCard = (function () {
 
             /**
              * Embed a photo from a file using base-64 encoding (not implemented yet)
-             * @param  {string} filename
+             * @param  {any} imgData
              */
-            embedFromFile: function(fileLocation) {
-              var imgData = fs.default.fs.readFile(fileLocation);
+            embedFromFile: function(imgData) {
               this.url = imgData.toString('base64');
               this.base64 = true;
             }
@@ -107,7 +104,7 @@ var vCard = (function () {
 
         /**
          * Date of birth
-         * @type {Datetime}
+         * @type {String}
          */
         birthday: '',
 
@@ -287,7 +284,7 @@ var vCard = (function () {
 
         /**
          * Get major version of the vCard format
-         * @return {integer}
+         * @return {Integer}
          */
         getMajorVersion: function() {
             var majorVersionString = this.version ? this.version.split('.')[0] : '4';
@@ -304,18 +301,8 @@ var vCard = (function () {
         getFormattedString: function() {
             var vCardFormatter = require('./lib/vCardFormatter');
             return vCardFormatter.getFormattedString(this);
-        },
-
-        /**
-         * Save formatted vCard to file
-         * @param  {String} filename
-         */
-        saveToFile: function(filename) {
-            var vCardFormatter = require('./lib/vCardFormatter');
-            var contents = vCardFormatter.getFormattedString(this);
-
-            return fs.default.fs.writeFile(filename, contents, 'utf8');
         }
+
     };
 });
 
